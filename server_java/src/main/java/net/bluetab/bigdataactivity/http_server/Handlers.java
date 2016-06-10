@@ -32,6 +32,7 @@ public class Handlers {
          cluster = c;
          session = s;
          id = i;
+         this.he = he;
       }
       public void run() {
          // parse request
