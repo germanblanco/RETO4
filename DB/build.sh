@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t reto4db .
+docker build -t bluetab/reto4db .

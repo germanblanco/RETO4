@@ -1,0 +1,27 @@
+HTTP:
+  ports:
+  - 80:80
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - SERVER:SERVER
+  stdin_open: true
+DB:
+  labels:
+    io.rancher.container.pull_image: always
+  image: bluetab/reto4db
+SERVER:
+  labels:
+    io.rancher.container.pull_image: always
+  image: bluetab/reto4server
+  links:
+  - DB:reto4db
+LOAD:
+  environment:
+    RATE: '1'
+    HITS: '1'
+  labels:
+    io.rancher.container.pull_image: always
+  image: bluetab/reto4load
+  links:
+  - SERVER:reto4server

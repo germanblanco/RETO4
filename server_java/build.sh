@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn package && docker build -t reto4server .
+mvn package && docker build -t bluetab/reto4server .

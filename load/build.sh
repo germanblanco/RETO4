@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t reto4load .
+docker build -t bluetab/reto4load .
