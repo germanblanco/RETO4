@@ -6,10 +6,13 @@ HTTP:
     port: 42
     interval: 2000
     unhealthy_threshold: 3
-    healthy_threshold: 2
+    strategy: recreate
     response_timeout: 2000
-DB:
+    healthy_threshold: 2
+DBEXTRA:
   scale: 1
+DB:
+  scale: 2
 SERVER:
   scale: 1
 LOAD:

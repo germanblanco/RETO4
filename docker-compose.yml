@@ -6,9 +6,17 @@ HTTP:
   links:
   - SERVER:SERVER
   stdin_open: true
+DBEXTRA:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: bluetab/reto4db
+  links:
+  - DB:seeds
 DB:
   labels:
     io.rancher.container.pull_image: always
+  tty: true
   image: bluetab/reto4db
 SERVER:
   labels:
@@ -18,8 +26,8 @@ SERVER:
   - DB:reto4db
 LOAD:
   environment:
-    RATE: '1'
     HITS: '1'
+    RATE: '1'
   labels:
     io.rancher.container.pull_image: always
   image: bluetab/reto4load
