@@ -6,19 +6,13 @@ do
    SEED1IP=`curl -s http://rancher-metadata/2015-12-19/services/DB/containers/0/primary_ip`
    SEED2IP=`curl -s http://rancher-metadata/2015-12-19/services/DB/containers/1/primary_ip`
 done
+CASSANDRA_SEEDS="$SEED1IP,$SEED2IP"
 
 MYIP=`curl http://rancher-metadata/2015-12-19/self/container/primary_ip`
 
-sed -i.bak "s/cluster_name: 'Test Cluster'/cluster_name: 'RETO4'/" /etc/cassandra/cassandra.yaml
-sed -i.bak "s/seeds: .*/seeds: \"$SEED1IP,$SEED2IP\"/" /etc/cassandra/cassandra.yaml
-sed -i.bak "s/listen_address: .*/listen_address: \"$MYIP\"/" /etc/cassandra/cassandra.yaml
-sed -i.bak "s/broadcast_address: .*/broadcast_address: \"$MYIP\"/" /etc/cassandra/cassandra.yaml
-sed -i.bak "s/broadcast_rpc_address: .*/broadcast_rpc_address: \"$MYIP\"/" /etc/cassandra/cassandra.yaml
-
-sed -i.bak "16,36d" /docker-entrypoint.sh
-
-cat /etc/cassandra/cassandra.yaml
-
+CASSANDRA_CLUSTER_NAME=RETO4 \
+CASSANDRA_LISTEN_ADDRESS="$MYIP" \
+CASSANDRA_SEEDS="$CASSANDRA_SEEDS" \
 /docker-entrypoint.sh cassandra -f &
 until cqlsh -e "describe keyspace system;"
 do
